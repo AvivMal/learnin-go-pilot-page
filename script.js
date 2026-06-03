@@ -1,5 +1,5 @@
-const PILOT_REGISTRATION_END_DATE = "2026-06-08T12:00:00+03:00";
-const SHEETS_WEB_APP_URL = "PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+﻿const PILOT_REGISTRATION_END_DATE = "2026-06-08T12:00:00+03:00";
+const SHEETS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzoA8N_HIIDLbGYqU848_jKBydkvnGfLAs1JcdZdvHujW1etfpI-3T-4OlR4oUfiHuIAQ/exec";
 
 // Security note: Do not put private emails, passwords, API keys, or secrets in frontend code.
 // The frontend should only call the Google Apps Script Web App URL.
@@ -67,17 +67,14 @@ function showMessage(text) {
 }
 
 async function submitLead(payload) {
-  const response = await fetch(SHEETS_WEB_APP_URL, {
+  await fetch(SHEETS_WEB_APP_URL, {
     method: "POST",
+    mode: "no-cors",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "text/plain;charset=utf-8",
     },
     body: JSON.stringify(payload),
   });
-
-  if (!response.ok) {
-    throw new Error("Lead submission failed");
-  }
 }
 
 form.addEventListener("submit", async (event) => {
@@ -110,7 +107,7 @@ form.addEventListener("submit", async (event) => {
   try {
     setLoading(true);
     await submitLead(payload);
-    form.innerHTML = '<p class="success-message">נרשמת לפיילוט. אם תיכנס/י לרשימה — ניצור קשר בקרוב.</p>';
+    form.innerHTML = '<p class="success-message">נרשמת בהצלחה לפיילוט 🚀 <br> אנחנו עוברים על ההרשמות וניצור קשר בקרוב</p>';
   } catch (error) {
     showMessage("משהו השתבש. נסו שוב בעוד רגע.");
   } finally {
